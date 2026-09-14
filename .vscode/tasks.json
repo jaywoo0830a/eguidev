@@ -1,0 +1,118 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // The full agent loop for visual work: apply state, capture, then read
+      // the returned image files from tmp/eguidev-screenshots. The same script
+      // also works over MCP, where the images arrive as image content blocks.
+      "label": "edev: capture screenshots (headless Linux)",
+      "type": "shell",
+      "command": "xvfb-run",
+      "args": [
+        "-a",
+        "-s",
+        "-screen 0 1600x1000x24",
+        "edev",
+        "eval",
+        "examples/screenshot.luau",
+        "--out-dir",
+        "tmp/eguidev-screenshots"
+      ],
+      "options": {
+        // eframe/glow needs a software GL path when there is no GPU.
+        "env": { "LIBGL_ALWAYS_SOFTWARE": "1" }
+      },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: capture screenshots",
+      "type": "shell",
+      "command": "edev",
+      "args": [
+        "eval",
+        "examples/screenshot.luau",
+        "--out-dir",
+        "tmp/eguidev-screenshots"
+      ],
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: capture screenshots (fixture)",
+      "type": "shell",
+      "command": "edev",
+      "args": [
+        "eval",
+        "examples/screenshot.luau",
+        "--out-dir",
+        "tmp/eguidev-screenshots",
+        "--arg",
+        "fixture=${input:fixtureName}"
+      ],
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: list fixtures",
+      "type": "shell",
+      "command": "edev",
+      "args": ["fixtures"],
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: dump widget tree",
+      "type": "shell",
+      "command": "edev",
+      "args": ["dump"],
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: print Luau API",
+      "type": "shell",
+      "command": "edev",
+      "args": ["docs"],
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: smoke suite",
+      "type": "shell",
+      "command": "edev",
+      "args": ["smoke"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "edev: smoke suite with failure bundles",
+      "type": "shell",
+      "command": "edev",
+      "args": ["smoke", "--bundle"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "cargo xtask: checks",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["xtask", "checks"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "cargo xtask: smoke",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["xtask", "smoke"],
+      "group": "test",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "fixtureName",
+      "type": "promptString",
+      "description": "Registered fixture to apply before capture",
+      "default": "basic.empty"
+    }
+  ]
+}

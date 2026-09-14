@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // The demo runs an ordinary app when Edev does not supply
+      // EGUIDEV_MCP_ADDR, so this launch needs no automation setup.
+      "name": "Debug eguidev_demo",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": [
+          "build",
+          "--locked",
+          "--package",
+          "eguidev_demo",
+          "--bin",
+          "eguidev_demo"
+        ]
+      },
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      // Attach to a demo started through `edev fixture NAME`, which keeps the
+      // app running for manual inspection while the automation endpoint is up.
+      "name": "Attach to running app (CodeLLDB)",
+      "type": "lldb",
+      "request": "attach"
+    }
+  ]
+}

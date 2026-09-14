@@ -1,0 +1,24 @@
+{
+  // Luau scripts are Lua-family files. The Luau LSP extension supplies the
+  // checked declaration set from crates/eguidev_runtime/luau/eguidev.d.luau.
+  "files.associations": {
+    "*.luau": "luau"
+  },
+  "[luau]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua"
+  },
+  "files.exclude": {
+    "**/target": true
+  },
+  "search.exclude": {
+    "**/target": true,
+    "tmp": true,
+    ".edev-instances": true
+  },
+  // Tests in `edev` are behind the `edev/test-app` feature. Checking it here
+  // keeps those integration tests analyzable in the editor.
+  "rust-analyzer.cargo.features": ["edev/test-app"],
+  "rust-analyzer.check.command": "clippy",
+  // The repository uses nightly rustfmt (see DEV.md).
+  "rust-analyzer.rustfmt.extraArgs": ["+nightly"]
+}

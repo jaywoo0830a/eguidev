@@ -1,0 +1,31 @@
+{
+  // VS Code workspace MCP configuration (Copilot Chat agent mode, and other
+  // MCP-capable chat extensions).
+  //
+  // `edev mcp` is the Edev launcher. It exposes start/stop/restart/status and
+  // hands back the app-owned endpoint that serves `script_api` and
+  // `script_eval`. A `script_eval` result keeps every `ImageRef` reachable from
+  // the returned value as an MCP image content block, so an agent sees the
+  // screenshot directly instead of screen-scraping the window.
+  //
+  // This uses the installed CLI so the server starts instantly. To build the
+  // launcher from this workspace instead, replace the block below with:
+  //   "command": "cargo",
+  //   "args": ["run", "--locked", "--bin", "edev", "--", "mcp"]
+  //
+  // Edev finds `.edev.toml` by walking upward from the process working
+  // directory, which VS Code sets to this workspace folder.
+  "servers": {
+    "eguidev": {
+      "type": "stdio",
+      "command": "edev",
+      "args": ["mcp"],
+      // The managed app inherits this environment. Software GL keeps
+      // eframe/glow alive on machines without a GPU; `DISPLAY` still has to
+      // come from the process that launched VS Code.
+      "env": {
+        "LIBGL_ALWAYS_SOFTWARE": "1"
+      }
+    }
+  }
+}
